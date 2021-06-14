@@ -11,9 +11,9 @@ void bubble_sort(int *array, size_t size)
 {
 	/* print array every time you swap */
 	int pass, i;
-	int temp, swapped = 1;
+	int temp;
 
-	for (pass = size; pass >= 0 && swapped; pass--)
+	for (pass = size; pass >= 0; pass--)
 	{
 		swapped = 0;
 		for (i = 0; i < pass - 1; i++)
@@ -23,7 +23,6 @@ void bubble_sort(int *array, size_t size)
 				temp = array[i];
 				array[i] = array[i + 1];
 				array[i + 1] = temp;
-				swapped = 1;
 				print_array(array, size);
 			}
 		}

@@ -1,60 +1,65 @@
 #include "sort.h"
 /**
- * sorted_insert - inserts a new node in a sorted list
- * @list: the sorted list
- * @newNode: the node from the unsorted list to be inserted in the
- * the new sorted list
+ * insertion_sort_list - SOrts a doubly linked list
+ * using insertion sort algorithm
+ * @list: double ptr to the head of the unordered doubly linked list
+ *
+ * Return: void
  */
-void sorted_insert(listint_t **list, listint_t *newNode)
+
+void insertion_sort_list(listint_t **list)
 {
-	listint_t *current = NULL;
+	listint_t *prev, *current;
 
-/* check if the list is empty */
-	if (*list == NULL)
-		*list = newNode;
+	if (list == NULL || (*list)->next == NULL)
+		return;
 
-	/* if the node is to be inserted before head */
-	else if ((*list)->n >= newNode->n)
+
+
+	current = *list;
+	while(current)
 	{
-		newNode->next = *list;
-		newNode->next->prev = newNode;
-		*list = newNode;
-	}
-	else
-	{
-		current = *list;
-/* locate the node after which the new node is to be inserted */
-
-
-		while (current->next != NULL && current->next->n < newNode->n)
+		prev = current->prev;
+		while(prev && prev->n > current->n)
 		{
-			current = current->next;
+			swapNodes(list, prev, current);
+			print_list(*list);
+			prev = current->prev;
 		}
-		newNode->next = current->next;
-		if (current->next)
-			newNode->next->prev = newNode;
-		current->next = newNode;
-		newNode->prev = current;
+		current = current->next;
 	}
 }
 /**
- * insertion_sort_list - Sorts a doubly linked list of integers in an ascending
- * @list: Double pointer to the doubly linked list to be sorted
+ * swapNodes - Swaps two nodes given pointers to their addresses
+ * @list: head ptr to the list in which nodeA and nodeB belong
+ * @nodeA: ptr to the first node to be swapped
+ * @nodeB: ptr to the second node to be swapped
  *
  * Return: Void
  */
-void insertion_sort_list(listint_t **list)
+
+void swapNodes(listint_t **list, listint_t  *nodeA, listint_t *nodeB)
 {
-	listint_t *sorted = NULL, *temp = NULL, *current = *list;
+	listint_t *prevA, *nextB;
 
-	while (current != NULL)
-	{
-		temp = current->next;
-		current->prev = current->next = NULL;
-		sorted_insert(&sorted, current);
-		current = temp;
-	}
+	if (nodeA == NULL || nodeB == NULL)
+		return;
 
-	*list = sorted;
-	print_list(sorted);
+	prevA = nodeA->prev;
+	nextB = nodeB->next;
+
+
+	if (prevA) /* check if node A is the head node */
+		prevA->next = nodeB;
+
+	if (nextB)
+		nextB->prev = nodeA;
+
+	nodeA->next = nextB;
+	nodeA->prev = nodeB;
+	nodeB->next = nodeA;
+	nodeB->prev = prevA;
+
+	if (prevA == NULL)
+		*list = nodeB;
 }

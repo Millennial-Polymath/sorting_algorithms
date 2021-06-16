@@ -17,10 +17,10 @@ void insertion_sort_list(listint_t **list)
 
 
 	current = *list;
-	while(current)
+	while (current)
 	{
 		prev = current->prev;
-		while(prev && prev->n > current->n)
+		while (prev && prev->n > current->n)
 		{
 			swapNodes(list, prev, current);
 			print_list(*list);

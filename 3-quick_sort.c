@@ -6,42 +6,44 @@
  *
  * Return: void
  */
-void swap(int *a, int *b)
+int swap(int *a, int *b)
 {
 	int temp = *a;
 	*a = *b;
 	*b = temp;
+	return (1);
 }
-
 /**
- * Partition - Recursively partitions the array using technique
- * @array: the array to be partitioned
- * @l_mkr: left marker/ lower index
- * @r_mkr: right index / higher index
- * @size: the size of the array
- *
+ * partition - Does a recursive lomuto partition of the array
+ * @array: The array to be 'partitioned'
+ * @l_mkr: left marker/ lowest index
+ * @r_mkr: right marker/highest index
+ * @size: the size of array
  * Return: void
  */
 
 void partition(int *array, int l_mkr, int r_mkr, size_t size)
 {
 
-	/* Lomuto- take the last element as the pivot */
-	int pivot = array[r_mkr], i = (l_mkr - 1), j; /* index of smaller element */
-
+	int pivot = array[r_mkr], i = (l_mkr - 1), j, swapped;
+	/* check if array has one element */
 	if (r_mkr <= l_mkr)
-	  	return;
+		return;
 
 	for (j = l_mkr; j <= r_mkr - 1; j++)
 	{
+		/* check if the element is smaller than the pivot */
 		if (array[j] < pivot)
 		{
-			i++; /* increment index of the smaller element */
-			swap(&array[i], &array[j]);
+			/* increment the index of the smaller no. */
+			i++;
+			swapped = swap(&array[i], &array[j]);
 		}
 	}
-	swap(&array[i + 1], &array[r_mkr]);
-	print_array(array, size);
+	/* swap the ith + 1 with the pivot */
+	swapped = swap(&array[i + 1], &array[r_mkr]);
+	if  (swapped)
+		print_array(array, size);
 	partition(array, l_mkr, i, size);
 	partition(array, i + 2, r_mkr, size);
 }

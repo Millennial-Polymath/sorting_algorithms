@@ -29,7 +29,7 @@ void partition(int *arr, int start, int end, size_t size)
 	int pivot = arr[end], i = start - 1, j;
 
 
-	if (start > end)
+	if (start >= end)
 		return;
 	for (j = start; j < end; j++)
 	{
